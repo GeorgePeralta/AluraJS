@@ -11,8 +11,7 @@ function playKeySound(audioSelector) {
 
 const keyList = document.querySelectorAll(".tecla");
 
-for (let counter = 0; counter < keyList.length; counter++) {
-  const keyboardKey = keyList[counter];
+for (const keyboardKey of keyList) {
   const instrument = keyboardKey.classList[1];
   const idAudio = `#som_${instrument}`;
 
@@ -20,13 +19,16 @@ for (let counter = 0; counter < keyList.length; counter++) {
     playKeySound(idAudio);
   };
 
-  keyboardKey.onkeydown = function (event) {
-    if (event.code === "Enter" || event.code === "Space") {
-      keyboardKey.classList.add("ativa");
-    }
-  };
+  keyboardKey.addEventListener("keydown", handleKeyPress);
+  keyboardKey.addEventListener("keyup", handleKeyRelease);
+}
 
-  keyboardKey.onkeyup = function () {
-    keyboardKey.classList.remove("ativa");
-  };
+function handleKeyPress(event) {
+  if (event.code === "Enter" || event.code === "Space") {
+    keyboardKey.classList.add("ativa");
+  }
+}
+
+function handleKeyRelease() {
+  keyboardKey.classList.remove("ativa");
 }
